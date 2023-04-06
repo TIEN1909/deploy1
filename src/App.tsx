@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "./components/Style/App.css";
+import {
+  Home,
+  Header,
+  About,
+  Skills,
+  Qualification,
+  Projects,
+  Contact,
+  Footer,
+  ScrollUp,
+  contextDarkMod,
+  Cursor,
+} from "./components";
 
 function App() {
+  const [IsdarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  const toggleIsDarkMode = (): void => {
+    localStorage.setItem("isDarkMode", JSON.stringify(!IsdarkMode));
+    setIsDarkMode(!IsdarkMode);
+  };
+
+  useEffect(() => {
+    const isDark: boolean = localStorage.getItem("isDarkMode") === "true";
+    setIsDarkMode(isDark);
+  }, [IsdarkMode]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <contextDarkMod.Provider value={{ IsdarkMode, toggleIsDarkMode }}>
+      <div className="App">
+        <Header />
+        <main className="main">
+          <Cursor />
+          <Home />
+          <About />
+          <Skills />
+          <Qualification />
+          <Projects />
+          <Contact />
+        </main>
+        <Footer />
+        <ScrollUp />
+      </div>
+    </contextDarkMod.Provider>
   );
 }
 
